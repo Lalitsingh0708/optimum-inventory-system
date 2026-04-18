@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Spares - Optimum Inventory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo"><i class="ph-fill ph-hexagon"></i> <span>O</span>ptimum Inventory</div>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i> Dashboard</a>
+                <a href="spares.html" class="nav-link active"><i class="ph ph-wrench"></i> Machine Spares</a>
+                <a href="eoq.html" class="nav-link"><i class="ph ph-chart-line-up"></i> EOQ Engine</a>
+                <a href="reports.html" class="nav-link"><i class="ph ph-file-text"></i> Reports</a>
+                <a href="#" class="nav-link" onclick="logout()" style="margin-top: auto; color: var(--danger-color);"><i class="ph ph-sign-out"></i> Logout</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="page-header">
+                <h2>Machine Spares Directory</h2>
+                <p>Browse through the complete catalog of physical industrial spare items.</p>
+            </div>
+
+            <div class="spares-grid" id="sparesContainer">
+                <!-- Populated via JS -->
+            </div>
+        </div>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/spares.js"></script>
+</body>
+</html>

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SpareCo — Inventory Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/spareco.css">
+</head>
+<body>
+
+<!-- MOB MENU -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="closeMob()">✕</button>
+  <a href="#features" onclick="closeMob()">Features</a>
+  <a href="#models" onclick="closeMob()">Models</a>
+  <a href="#calculator" onclick="closeMob()">Calculator</a>
+  <a href="#metrics" onclick="closeMob()">Metrics</a>
+  <a href="#process" onclick="closeMob()">Process</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="logo">
+    <div class="logo-mark">⚙</div>
+    Spare<em>Co</em>
+  </a>
+  <div class="nav-center">
+    <a href="#features" class="active">Features</a>
+    <a href="#models">Models</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#process">Process</a>
+  </div>
+  <div class="nav-right">
+    <a href="#models" class="btn-outline-sm">Explore</a>
+    <a href="#calculator" class="btn-fill-sm">Try Calculator</a>
+  </div>
+  <button class="hamburger" onclick="openMob()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-deco">
+    <div class="deco-circle deco-1"></div>
+    <div class="deco-circle deco-2"></div>
+    <div class="deco-grid"></div>
+  </div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Inventory Intelligence Platform</div>
+    <h1 class="hero-title">
+      <span class="outline">Optimum</span>
+      <em>Inventory Control</em>
+      of Machine Spares
+    </h1>
+    <p class="hero-desc">
+      Eliminate stockouts. Slash carrying costs. Achieve production continuity with precision-engineered inventory control models built for industrial machine spares management.
+    </p>
+    <div class="hero-ctas">
+      <a href="#calculator" class="btn-primary">⚡ Calculate EOQ</a>
+      <a href="#models" class="btn-secondary">Explore Models →</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-avatars">
+        <div class="proof-av">AK</div>
+        <div class="proof-av">RS</div>
+        <div class="proof-av">PV</div>
+        <div class="proof-av">+</div>
+      </div>
+      <div class="proof-text"><strong>500+ plants</strong><br>optimized with SpareCo models</div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div style="position:relative">
+      <div class="chip-float chip-1">
+        <span class="chip-icon">🟢</span> Bearing #A14 — Stock OK
+      </div>
+      <div class="dash-wrap">
+        <div class="dash-header">
+          <div class="dash-dots">
+            <div class="dd dd-r"></div>
+            <div class="dd dd-y"></div>
+            <div class="dd dd-g"></div>
+          </div>
+          <span class="dash-title">Inventory Dashboard</span>
+          <span class="dash-badge">LIVE DATABASE</span>
+        </div>
+        <div class="dash-body">
+          <!-- KPIs -->
+          <div class="kpi-strip">
+            <div class="kpi-card">
+              <div class="kpi-label">Aggregated EOQ</div>
+              <div class="kpi-val" id="dashValEOQ" style="color:var(--rust)">...</div>
+              <div class="kpi-delta">↓ Live Cost Computed</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">System ROP Metric</div>
+              <div class="kpi-val" style="color:var(--teal)">Optimal</div>
+              <div class="kpi-delta">↑ 99% SL</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Low Stock Alerts</div>
+              <div class="kpi-val" id="dashValSS" style="color:var(--gold)">...</div>
+              <div class="kpi-delta neg">↑ Critical action</div>
+            </div>
+          </div>
+
+          <!-- Spark chart -->
+          <div class="spark-section">
+            <div class="spark-head">
+              <span class="spark-title">Monthly Consumption vs. Stock</span>
+              <div class="spark-legend">
+                <div class="leg-item"><div class="leg-dot" style="background:var(--rust)"></div>Usage</div>
+                <div class="leg-item"><div class="leg-dot" style="background:var(--teal)"></div>Stock</div>
+              </div>
+            </div>
+            <div class="spark-bars">
+              <div><div class="sbar rust" style="height:48%"></div><div class="sbar-label">J</div></div>
+              <div><div class="sbar teal" style="height:65%"></div><div class="sbar-label">F</div></div>
+              <div><div class="sbar rust" style="height:40%"></div><div class="sbar-label">M</div></div>
+              <div><div class="sbar teal" style="height:80%"></div><div class="sbar-label">A</div></div>
+              <div><div class="sbar rust" style="height:58%"></div><div class="sbar-label">M</div></div>
+              <div><div class="sbar teal" style="height:72%"></div><div class="sbar-label">J</div></div>
+              <div><div class="sbar rust" style="height:35%"></div><div class="sbar-label">J</div></div>
+              <div><div class="sbar teal" style="height:90%"></div><div class="sbar-label">A</div></div>
+            </div>
+          </div>
+
+          <!-- Items list updated via spareco.js -->
+          <div class="items-list">
+             <div style="text-align:center; padding: 20px; color: var(--muted); font-size: 0.8rem;">
+                 Connecting to Express Backend...
+             </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="chip-float chip-2">
+        <span class="chip-icon">📈</span> Backend Integration Online
+      </div> -->
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="reveal">
+    <div class="s-label">Why SpareCo</div>
+    <div class="s-title">Every Tool for <em>Precision</em> Control</div>
+    <p class="s-sub">From EOQ computation to criticality classification — a complete analytical framework for machine spare parts management.</p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card reveal">
+      <div class="feat-num">01</div>
+      <div class="feat-ico" style="background:var(--rust-lt)">📊</div>
+      <h3>EOQ Computation</h3>
+      <p>Determines the order quantity that minimizes combined ordering and holding costs using the classic Wilson formula.</p>
+    </div>
+    <div class="feat-card reveal" style="transition-delay:.08s">
+      <div class="feat-num">02</div>
+      <div class="feat-ico" style="background:var(--teal-lt)">🔁</div>
+      <h3>Reorder Point Analysis</h3>
+      <p>Automatically computes when to replenish based on lead time demand and desired fill rate or service level.</p>
+    </div>
+    <div class="feat-card reveal" style="transition-delay:.16s">
+      <div class="feat-num">03</div>
+      <div class="feat-ico" style="background:var(--gold-lt)">🛡️</div>
+      <h3>Safety Stock Planning</h3>
+      <p>Calculates buffer inventory against demand and supply variability, calibrated to your target service level.</p>
+    </div>
+    <div class="feat-card reveal" style="transition-delay:.08s">
+      <div class="feat-num">04</div>
+      <div class="feat-ico" style="background:var(--rust-lt)">📦</div>
+      <h3>ABC–VED Classification</h3>
+      <p>Dual-axis classification by value (ABC) and operational criticality (VED) for differentiated control policies.</p>
+    </div>
+    <div class="feat-card reveal" style="transition-delay:.16s">
+      <div class="feat-num">05</div>
+      <div class="feat-ico" style="background:var(--teal-lt)">📉</div>
+      <h3>Total Cost Minimization</h3>
+      <p>Simultaneously optimises holding, ordering, and shortage costs across your complete spare parts portfolio.</p>
+    </div>
+    <div class="feat-card reveal" style="transition-delay:.24s">
+      <div class="feat-num">06</div>
+      <div class="feat-ico" style="background:var(--gold-lt)">⚡</div>
+      <h3>Criticality & Lead Analysis</h3>
+      <p>Flags Vital spares with extended lead times for priority procurement, preventing unplanned production halts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MODELS -->
+<section id="models" style="background:var(--warm)">
+  <div class="reveal">
+    <div class="s-label">Inventory Models</div>
+    <div class="s-title">Choose Your <em>Control</em> Model</div>
+    <p class="s-sub">Select the right model for your demand pattern, lead time behaviour, and cost structure.</p>
+  </div>
+  <div class="models-wrap">
+    <div class="model-nav reveal">
+      <button class="model-btn active" onclick="setModel('eoq',this)">
+        <span class="model-btn-num">01</span>
+        <div>
+          <div class="model-btn-label">Economic Order Quantity</div>
+          <div class="model-btn-sub">Deterministic, fixed demand</div>
+        </div>
+        <span class="model-arrow">→</span>
+      </button>
+      <button class="model-btn" onclick="setModel('ss',this)">
+        <span class="model-btn-num">02</span>
+        <div>
+          <div class="model-btn-label">Safety Stock Model</div>
+          <div class="model-btn-sub">Probabilistic, variable demand</div>
+        </div>
+        <span class="model-arrow">→</span>
+      </button>
+      <button class="model-btn" onclick="setModel('rop',this)">
+        <span class="model-btn-num">03</span>
+        <div>
+          <div class="model-btn-label">Reorder Point System</div>
+          <div class="model-btn-sub">Continuous review policy</div>
+        </div>
+        <span class="model-arrow">→</span>
+      </button>
+      <button class="model-btn" onclick="setModel('abc',this)">
+        <span class="model-btn-num">04</span>
+        <div>
+          <div class="model-btn-label">ABC–VED Analysis</div>
+          <div class="model-btn-sub">Classification & prioritisation</div>
+        </div>
+        <span class="model-arrow">→</span>
+      </button>
+    </div>
+
+    <div class="model-panel reveal" style="transition-delay:.15s">
+      <!-- EOQ -->
+      <div class="mpanel active" id="mp-eoq">
+        <h3>Economic Order Quantity</h3>
+        <p>The EOQ model finds the optimal order quantity that minimises total annual inventory cost — balancing ordering frequency against holding cost. It is the foundation of all deterministic inventory control.</p>
+        <div class="formula-card">
+          <div class="formula-top">Wilson Formula</div>
+          <div class="formula-eq">EOQ = √( 2 · D · S / H )</div>
+          <div class="formula-vars">D = Annual Demand &nbsp;|&nbsp; S = Ordering Cost per Order &nbsp;|&nbsp; H = Annual Holding Cost per Unit</div>
+        </div>
+        <div class="model-tags">
+          <span class="m-tag">Minimises total cost</span>
+          <span class="m-tag">Constant demand assumption</span>
+          <span class="m-tag">Fast-moving spares</span>
+          <span class="m-tag">Class A items</span>
+        </div>
+        <div class="eoq-diagram">
+          <div class="eoq-diagram-title">Cost Curve — EOQ at minimum total cost</div>
+          <svg viewBox="0 0 320 160" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <line x1="30" y1="8" x2="30" y2="140" stroke="#ddd7cc" stroke-width="1"/>
+            <line x1="30" y1="140" x2="305" y2="140" stroke="#ddd7cc" stroke-width="1"/>
+            <text x="3" y="144" fill="#7a7269" font-size="8" font-family="JetBrains Mono">0</text>
+            <text x="8" y="80" fill="#7a7269" font-size="7" font-family="JetBrains Mono" transform="rotate(-90,14,80)">Cost ₹</text>
+            <text x="155" y="155" fill="#7a7269" font-size="7" font-family="JetBrains Mono">Order Quantity →</text>
+            <!-- Holding cost (rising) -->
+            <polyline points="35,132 80,115 120,99 155,88 190,78 230,67 270,55 300,45"
+              fill="none" stroke="#c45c2a" stroke-width="1.5" stroke-dasharray="5,3" opacity=".7"/>
+            <!-- Ordering cost (falling) -->
+            <polyline points="35,38 75,62 110,80 148,98 185,112 225,124 270,133 300,137"
+              fill="none" stroke="#1d706b" stroke-width="1.5" stroke-dasharray="5,3" opacity=".7"/>
+            <!-- Total cost -->
+            <path d="M 38,128 Q 80,88 148,73 Q 200,67 260,90 L 298,110"
+              fill="none" stroke="#b07d2f" stroke-width="2.5"/>
+            <!-- EOQ vertical -->
+            <line x1="148" y1="20" x2="148" y2="140" stroke="rgba(176,125,47,.4)" stroke-width="1" stroke-dasharray="4,3"/>
+            <circle cx="148" cy="73" r="5" fill="#b07d2f"/>
+            <circle cx="148" cy="73" r="9" fill="none" stroke="rgba(176,125,47,.4)" stroke-width="1.5"/>
+            <text x="143" y="17" fill="#b07d2f" font-size="8" font-family="JetBrains Mono">EOQ*</text>
+            <!-- Legend -->
+            <line x1="35" y1="14" x2="52" y2="14" stroke="#c45c2a" stroke-width="1.5" stroke-dasharray="4,2" opacity=".7"/>
+            <text x="54" y="17" fill="#c45c2a" font-size="6.5" font-family="JetBrains Mono">Holding</text>
+            <line x1="105" y1="14" x2="122" y2="14" stroke="#1d706b" stroke-width="1.5" stroke-dasharray="4,2" opacity=".7"/>
+            <text x="124" y="17" fill="#1d706b" font-size="6.5" font-family="JetBrains Mono">Ordering</text>
+            <line x1="185" y1="14" x2="202" y2="14" stroke="#b07d2f" stroke-width="2.5"/>
+            <text x="204" y="17" fill="#b07d2f" font-size="6.5" font-family="JetBrains Mono">Total</text>
+          </svg>
+        </div>
+      </div>
+      <!-- SS -->
+      <div class="mpanel" id="mp-ss">
+        <h3>Safety Stock Model</h3>
+        <p>Safety stock buffers against uncertainty in demand and lead time. The optimal SS level is driven by the desired service level (Z-score) and the standard deviation of demand during replenishment lead time.</p>
+        <div class="formula-card">
+          <div class="formula-top">Safety Stock Formula</div>
+          <div class="formula-eq">SS = Z · σ_d · √L</div>
+          <div class="formula-vars">Z = Service Level Factor &nbsp;|&nbsp; σ_d = Demand Std Dev &nbsp;|&nbsp; L = Lead Time (periods)</div>
+        </div>
+        <div class="model-tags">
+          <span class="m-tag">Prevents stockouts</span>
+          <span class="m-tag">Service-level calibrated</span>
+          <span class="m-tag">Vital spares priority</span>
+          <span class="m-tag">Stochastic demand</span>
+        </div>
+      </div>
+      <!-- ROP -->
+      <div class="mpanel" id="mp-rop">
+        <h3>Reorder Point System</h3>
+        <p>The Reorder Point triggers a new purchase order when on-hand inventory falls to a critical level. It ensures stock arrives before depletion by accounting for demand during the replenishment lead time plus safety stock.</p>
+        <div class="formula-card">
+          <div class="formula-top">Reorder Point Formula</div>
+          <div class="formula-eq">ROP = ( d̄ × L ) + SS</div>
+          <div class="formula-vars">d̄ = Avg Daily Demand &nbsp;|&nbsp; L = Lead Time (days) &nbsp;|&nbsp; SS = Safety Stock</div>
+        </div>
+        <div class="model-tags">
+          <span class="m-tag">Continuous review</span>
+          <span class="m-tag">Auto-replenishment trigger</span>
+          <span class="m-tag">Lead-time aware</span>
+          <span class="m-tag">Integrates with ERP</span>
+        </div>
+      </div>
+      <!-- ABC -->
+      <div class="mpanel" id="mp-abc">
+        <h3>ABC–VED Classification</h3>
+        <p>ABC analysis ranks spares by annual consumption value (Pareto). VED analysis ranks by operational criticality — Vital, Essential, Desirable. Combining both into a 3×3 matrix drives differentiated inventory policies for each cell.</p>
+        <div class="formula-card">
+          <div class="formula-top">ABC Annual Value</div>
+          <div class="formula-eq">Annual Value = Unit Cost × Annual Demand</div>
+          <div class="formula-vars">A: top 70–80% value &nbsp;|&nbsp; B: next 15–20% &nbsp;|&nbsp; C: bottom 5–10%</div>
+        </div>
+        <div class="model-tags">
+          <span class="m-tag">Pareto principle</span>
+          <span class="m-tag">Criticality overlay</span>
+          <span class="m-tag">Resource prioritisation</span>
+          <span class="m-tag">Policy differentiation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section id="metrics">
+  <div style="text-align:center" class="reveal">
+    <div class="s-label">Impact</div>
+    <div class="s-title">Results That <em>Transform</em> Operations</div>
+  </div>
+  <div class="metrics-grid">
+    <div class="met-card reveal">
+      <div class="met-icon">💰</div>
+      <div class="met-val"><span class="cnt" data-t="40">0</span><span class="met-suffix">%</span></div>
+      <div class="met-label">Inventory Cost Reduction</div>
+      <div class="met-bar"><div class="met-bar-fill" data-w="40"></div></div>
+    </div>
+    <div class="met-card reveal" style="transition-delay:.1s">
+      <div class="met-icon">⚡</div>
+      <div class="met-val"><span class="cnt" data-t="99">0</span><span class="met-suffix">%</span></div>
+      <div class="met-label">Parts Availability Rate</div>
+      <div class="met-bar"><div class="met-bar-fill" data-w="99"></div></div>
+    </div>
+    <div class="met-card reveal" style="transition-delay:.2s">
+      <div class="met-icon">🔄</div>
+      <div class="met-val"><span class="cnt" data-t="65">0</span><span class="met-suffix">%</span></div>
+      <div class="met-label">Faster Turnover Rate</div>
+      <div class="met-bar"><div class="met-bar-fill" data-w="65"></div></div>
+    </div>
+    <div class="met-card reveal" style="transition-delay:.3s">
+      <div class="met-icon">⏱️</div>
+      <div class="met-val"><span class="cnt" data-t="80">0</span><span class="met-suffix">%</span></div>
+      <div class="met-label">Downtime Risk Reduced</div>
+      <div class="met-bar"><div class="met-bar-fill" data-w="80"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MACHINES / FLEET -->
+<section id="fleet" style="background:var(--cream)">
+  <div class="reveal">
+    <div class="s-label">Fleet Operations</div>
+    <div class="s-title">Manage Your <em>Machine</em> Network</div>
+    <p class="s-sub">Register and track all industrial equipment operating across different cities. Link spares and compute metrics specific to geographic operations.</p>
+  </div>
+  <div class="calc-grid" style="margin-top:3rem; align-items:stretch;">
+    <!-- Add Machine Form -->
+    <div class="calc-card reveal">
+      <h3>Register New Machine</h3>
+      <div class="fg">
+        <label>Machine Name / ID</label>
+        <input type="text" id="mName" placeholder="e.g. CNC Router X-500">
+      </div>
+      <div class="fg">
+        <label>Operating City</label>
+        <input type="text" id="mCity" placeholder="e.g. Mumbai, Maharashtra">
+      </div>
+      <div class="fg">
+        <label>Status</label>
+        <select id="mStatus">
+          <option value="Active">🟢 Active</option>
+          <option value="Maintenance">🟠 Maintenance</option>
+          <option value="Decommissioned">🔴 Decommissioned</option>
+        </select>
+      </div>
+      <button class="calc-submit" onclick="addMachine()">Register Machine ➕</button>
+      <div id="mMsg" style="margin-top:10px; font-size:0.8rem; font-family:'JetBrains Mono', monospace; font-weight:600;"></div>
+    </div>
+    
+    <!-- Machine List Grid -->
+    <div class="calc-card reveal" style="transition-delay:.15s; display:flex; flex-direction:column;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem;">
+         <h3>Active Fleet Hubs</h3>
+         <span style="font-size:0.75rem; color:var(--muted); font-family:'JetBrains Mono',monospace;">LIVE SYNC</span>
+      </div>
+      <div id="machineList" style="display:flex; flex-direction:column; gap:0.8rem; max-height:280px; overflow-y:auto; padding-right:6px; scrollbar-width:thin; scrollbar-color:var(--rust) transparent;">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGISTICS / SUPPLIERS & SPARES -->
+<section id="logistics">
+  <div class="reveal">
+    <div class="s-label">Supply Chain</div>
+    <div class="s-title">Manage Spares &amp; <em>Suppliers</em></div>
+    <p class="s-sub">Register inbound spare parts into your live inventory pipeline and maintain a trusted directory of your industrial suppliers.</p>
+  </div>
+  <div class="calc-grid" style="margin-top:3rem;">
+    <!-- Add Spare Form -->
+    <div class="calc-card reveal">
+      <h3>Add New Spare Part</h3>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Part Name</label>
+          <input type="text" id="spName" placeholder="e.g. Hydraulic Valve">
+        </div>
+        <div class="fg">
+          <label>Part Number</label>
+          <input type="text" id="spNum" placeholder="e.g. VAL-098">
+        </div>
+      </div>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Machine Category</label>
+          <input type="text" id="spCat" placeholder="e.g. Pressing Machine">
+        </div>
+        <div class="fg">
+          <label>Unit Price (₹)</label>
+          <input type="number" id="spPrice" placeholder="e.g. 1500">
+        </div>
+      </div>
+      <button class="calc-submit" onclick="addSpare()">Register Spare ➕</button>
+      <div id="spMsg" style="margin-top:10px; font-size:0.8rem; font-family:'JetBrains Mono', monospace; font-weight:600;"></div>
+    </div>
+    
+    <!-- Add Supplier Form -->
+    <div class="calc-card reveal" style="transition-delay:.15s">
+      <h3>Register Supplier</h3>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Company Name</label>
+          <input type="text" id="supName" placeholder="e.g. Apex Industrial">
+        </div>
+        <div class="fg">
+          <label>Contact Person</label>
+          <input type="text" id="supContact" placeholder="e.g. Rahul Verma">
+        </div>
+      </div>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Email Address</label>
+          <input type="email" id="supEmail" placeholder="e.g. sales@apex.com">
+        </div>
+        <div class="fg">
+          <label>Phone Number</label>
+          <input type="text" id="supPhone" placeholder="e.g. +91 9876543210">
+        </div>
+      </div>
+      <button class="calc-submit" style="background:linear-gradient(135deg, var(--teal), #134e4a); box-shadow:0 4px 18px rgba(29,112,107,.3);" onclick="addSupplier()">Register Supplier 🤝</button>
+      <div id="supMsg" style="margin-top:10px; font-size:0.8rem; font-family:'JetBrains Mono', monospace; font-weight:600;"></div>
+    </div>
+  </div>
+
+  <!-- Spares Grid -->
+  <div class="reveal" style="margin-top:2.5rem; transition-delay:.2s">
+     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--ink);">Active Spares Directory</h3>
+        <span style="font-size:0.75rem; color:var(--muted); font-family:'JetBrains Mono',monospace;">LIVE SYNC</span>
+     </div>
+     <div id="sparesListGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:1rem; margin-bottom: 2.5rem;">
+        <!-- Injected via JS -->
+     </div>
+  </div>
+
+  <!-- Orders Grid -->
+  <div class="reveal" style="margin-top:2.5rem; transition-delay:.25s">
+     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--ink);">Active Purchase Orders</h3>
+        <span style="font-size:0.75rem; color:var(--muted); font-family:'JetBrains Mono',monospace;">INBOUND LOGISTICS</span>
+     </div>
+     <div style="max-height: 640px; overflow-y: auto; padding-right: 6px; scrollbar-width: thin; scrollbar-color: var(--rust) transparent;">
+       <div id="ordersListGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); gap:1rem; margin-bottom: 2.5rem;">
+          <!-- Injected via JS -->
+       </div>
+     </div>
+  </div>
+
+  <!-- Supplier Grid -->
+  <div class="reveal" style="margin-top:2.5rem; transition-delay:.2s">
+     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--ink);">Active Supplier Directory</h3>
+        <span style="font-size:0.75rem; color:var(--muted); font-family:'JetBrains Mono',monospace;">LIVE SYNC</span>
+     </div>
+     <div style="max-height: 640px; overflow-y: auto; padding-right: 6px; scrollbar-width: thin; scrollbar-color: var(--teal) transparent;">
+       <div id="supplierList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:1rem;">
+          <!-- Injected via JS -->
+       </div>
+     </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section id="calculator">
+  <div class="reveal">
+    <div class="s-label">EOQ Calculator</div>
+    <div class="s-title">Compute Your <em>Optimal</em> Quantity</div>
+    <p class="s-sub">Enter your parameters and instantly obtain EOQ, Safety Stock, Reorder Point, and total annual cost.</p>
+  </div>
+  <div class="calc-grid">
+    <div class="calc-card reveal">
+      <h3>Input Parameters</h3>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Annual Demand (D)</label>
+          <input type="number" id="iD" placeholder="e.g. 5000" min="0">
+        </div>
+        <div class="fg">
+          <label>Unit Cost (₹)</label>
+          <input type="number" id="iC" placeholder="e.g. 250" min="0">
+        </div>
+      </div>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Ordering Cost ₹/order</label>
+          <input type="number" id="iS" placeholder="e.g. 500" min="0">
+        </div>
+        <div class="fg">
+          <label>Holding Rate % / yr</label>
+          <input type="number" id="iH" placeholder="e.g. 20" min="0" max="100">
+        </div>
+      </div>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Lead Time (days)</label>
+          <input type="number" id="iL" placeholder="e.g. 14" min="0">
+        </div>
+        <div class="fg">
+          <label>Demand Std Dev (σ)</label>
+          <input type="number" id="iSD" placeholder="e.g. 25" min="0">
+        </div>
+      </div>
+      <div class="fg">
+        <label>Target Service Level</label>
+        <select id="iZ">
+          <option value="1.28">90% — Z = 1.28</option>
+          <option value="1.645" selected>95% — Z = 1.645</option>
+          <option value="2.05">98% — Z = 2.05</option>
+          <option value="2.33">99% — Z = 2.33</option>
+        </select>
+      </div>
+      <button class="calc-submit" onclick="doCalc()">⚡ Calculate Now</button>
+    </div>
+
+    <div class="results-stack reveal" style="transition-delay:.15s">
+      <!-- Main EOQ result -->
+      <div class="res-main">
+        <div class="rl">Economic Order Quantity</div>
+        <div class="rv"><span id="r-eoq">—</span> <span class="ru">units</span></div>
+        <div class="rd">Optimal order quantity minimising total inventory cost</div>
+        <div class="res-prog"><div class="res-prog-fill" id="rp-eoq"></div></div>
+      </div>
+      <!-- Grid -->
+      <div class="res-grid">
+        <div class="res-card teal">
+          <div class="rl">Safety Stock</div>
+          <div class="rv"><span id="r-ss">—</span> <span class="ru">units</span></div>
+          <div class="rd">Buffer against uncertainty</div>
+        </div>
+        <div class="res-card rust">
+          <div class="rl">Reorder Point</div>
+          <div class="rv"><span id="r-rop">—</span> <span class="ru">units</span></div>
+          <div class="rd">Trigger replenishment at</div>
+        </div>
+        <div class="res-card gold">
+          <div class="rl">Total Annual Cost</div>
+          <div class="rv">₹<span id="r-tac">—</span></div>
+          <div class="rd">Ordering + holding costs</div>
+        </div>
+        <div class="res-card">
+          <div class="rl">Order Cycle</div>
+          <div class="rv"><span id="r-cyc">—</span> <span class="ru" style="font-size:.8rem">days</span></div>
+          <div class="rd">Average days between orders</div>
+        </div>
+      </div>
+      <div class="res-card" style="background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:1.2rem">
+        <div class="rl">Orders Per Year</div>
+        <div class="rv" style="font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--ink)"><span id="r-opy">—</span> <span class="ru" style="font-size:.9rem;color:var(--muted)">orders/yr</span></div>
+        <div class="rd" style="font-size:.72rem;color:var(--muted);margin-top:.25rem">Optimal replenishment frequency</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" style="background:var(--warm)">
+  <div style="text-align:center" class="reveal">
+    <div class="s-label">Implementation Roadmap</div>
+    <div class="s-title">Four Phases to <em>Optimal</em> Control</div>
+    <p class="s-sub" style="margin:0 auto">A systematic approach to transforming reactive spare parts management into a predictive, cost-optimised system.</p>
+  </div>
+  <div class="process-grid">
+    <div class="proc-step reveal">
+      <div class="proc-tag">Phase 01</div>
+      <div class="proc-num">1</div>
+      <h4>Data Collection & Audit</h4>
+      <p>Gather historical demand data, supplier lead times, unit costs, ordering costs, and holding rates per SKU.</p>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.1s">
+      <div class="proc-tag">Phase 02</div>
+      <div class="proc-num">2</div>
+      <h4>Classification</h4>
+      <p>Apply ABC–VED matrix analysis to categorise all spares and define differentiated control policies for each class.</p>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.2s">
+      <div class="proc-tag">Phase 03</div>
+      <div class="proc-num">3</div>
+      <h4>Parameter Calculation</h4>
+      <p>Compute EOQ, Safety Stock, and Reorder Points for each item using the appropriate deterministic or stochastic model.</p>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.3s">
+      <div class="proc-tag">Phase 04</div>
+      <div class="proc-num">4</div>
+      <h4>Monitor & Refine</h4>
+      <p>Deploy reorder triggers, track KPIs continuously, and update model parameters as demand patterns evolve.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EDIT SPARE MODAL -->
+<div id="editSpareModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center; backdrop-filter:blur(5px);">
+  <div class="calc-card" style="width: 90%; max-width: 500px; position:relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    <button onclick="closeEditModal()" style="position:absolute; top:20px; right:20px; background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--muted);">✕</button>
+    <h3 style="margin-bottom: 1.5rem;">Edit Spare Part</h3>
+    <input type="hidden" id="editSpId">
+    <div class="fg">
+      <label>Part Name</label>
+      <input type="text" id="editSpName">
+    </div>
+    <div class="fg">
+      <label>Part Number</label>
+      <input type="text" id="editSpNum">
+    </div>
+    <div class="fg">
+      <label>Machine Category</label>
+      <input type="text" id="editSpCat">
+    </div>
+    <div class="fg">
+      <label>Unit Price (₹)</label>
+      <input type="number" id="editSpPrice">
+    </div>
+    <button class="calc-submit" onclick="saveSpareEdit()" style="margin-top:1rem;">Save Changes ✔</button>
+    <div id="editSpMsg" style="margin-top:10px; font-size:0.8rem; font-family:'JetBrains Mono', monospace; font-weight:600;"></div>
+  </div>
+</div>
+
+<!-- REORDER SPARE MODAL -->
+<div id="reorderSpareModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center; backdrop-filter:blur(5px);">
+  <div class="calc-card" style="width: 90%; max-width: 450px; position:relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    <button onclick="closeReorderModal()" style="position:absolute; top:20px; right:20px; background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--muted);">✕</button>
+    <h3 style="margin-bottom: 0.5rem;">Place Purchase Order</h3>
+    <p id="reorderSpTitle" style="color:var(--ink); font-weight:600; font-size:0.9rem; margin-bottom:1.5rem;"></p>
+    <input type="hidden" id="reorderSpId">
+    
+    <div class="fg">
+      <label>Supplier</label>
+      <select id="reorderSpSupplier">
+        <!-- Populated via JS -->
+      </select>
+    </div>
+    
+    <div class="fg-row">
+      <div class="fg">
+        <label>Order Qty</label>
+        <input type="number" id="reorderSpQty" min="1" value="10">
+      </div>
+      <div class="fg">
+        <label>Agreed Price (Total ₹)</label>
+        <input type="number" id="reorderSpPrice" min="0" value="0">
+      </div>
+    </div>
+    
+    <button class="calc-submit" onclick="confirmReorder()" style="margin-top:1rem; background:linear-gradient(135deg, var(--teal), #134e4a);">Submit Order 📋</button>
+    <div id="reorderSpMsg" style="margin-top:10px; font-size:0.8rem; font-family:'JetBrains Mono', monospace; font-weight:600;"></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="reveal">
+    <div class="s-label" style="justify-content:center">Get Started</div>
+    <div class="s-title" style="text-align:center">Stop Guessing.<br><em>Start Computing.</em></div>
+    <p class="s-sub" style="text-align:center;margin:0 auto 2.5rem">SpareCo gives your maintenance and procurement teams the analytical edge to run lean, resilient machine spare operations.</p>
+    <div class="cta-btns">
+      <a href="#calculator" class="btn-white">⚡ Try the Calculator</a>
+      <a href="#features" class="btn-ghost-white">Explore Features →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-left">
+    <div class="logo">
+      <div class="logo-mark">⚙</div>
+      Spare<em style="font-style:italic;color:var(--rust)">Co</em>
+    </div>
+    <div class="foot-copy">© 2025 SpareCo · Optimum Inventory Control of Machine Spares</div>
+  </div>
+  <div class="foot-links">
+    <a href="#features">Features</a>
+    <a href="#models">Models</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#process">Process</a>
+  </div>
+</footer>
+
+<script src="js/spareco.js"></script>
+<script src="js/chatbot.js"></script>
+</body>
+</html>

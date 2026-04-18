@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout - SpareCo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        .checkout-container {
+            max-width: 900px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+        .summary-card {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border-radius: 15px;
+            padding: 30px;
+            color: #fff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+        }
+        .payment-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .item-name  { font-weight: 600; font-size: 1.1rem; }
+        .item-meta  { font-size: 0.85rem; color: #94a3b8; }
+        .total-row  {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* ── TAB BAR ── */
+        .tab-bar { display: flex; border-bottom: 1px solid #e5e7eb; }
+        .tab-btn {
+            flex: 1;
+            padding: 14px 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: none;
+            background: #f8fafc;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-btn.active { background:#fff; color:#0f172a; border-bottom: 3px solid #14b8a6; }
+        .tab-panel { display:none; padding: 24px; }
+        .tab-panel.active { display:block; }
+
+        /* ── UPI QR ── */
+        .qr-wrapper { text-align: center; }
+        .qr-amount-badge {
+            display: inline-block;
+            background: linear-gradient(135deg,#0f172a,#1e3a5f);
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 800;
+            padding: 10px 28px;
+            border-radius: 50px;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+        }
+        .qr-img-box { position:relative; display:inline-block; margin-bottom:16px; }
+        .qr-img-box img {
+            width: 210px; height: 210px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 3px solid #0ea5e9;
+            display: block;
+        }
+        .qr-scan-label { font-size:0.75rem; color:#64748b; margin-bottom:14px; letter-spacing:0.03em; }
+        .upi-apps { display:flex; justify-content:center; gap:10px; margin-bottom:20px; }
+        .upi-app-chip {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+            letter-spacing: 0.04em;
+        }
+        .paid-section { border-top:1px dashed #e2e8f0; padding-top:18px; margin-top:4px; }
+        .utr-input {
+            width: 100%; box-sizing: border-box;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            transition: border 0.2s;
+            margin-top: 8px;
+            background: #f8fafc;
+        }
+        .utr-input:focus { border-color: #14b8a6; }
+
+        /* ── BUTTONS ── */
+        .pay-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg,#0d9488,#14b8a6);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 14px;
+            box-shadow: 0 8px 20px rgba(20,184,166,0.3);
+            transition: all 0.3s ease;
+        }
+        .pay-btn:hover { transform:translateY(-2px); box-shadow:0 12px 25px rgba(20,184,166,0.4); }
+        .pay-btn:disabled { background:#94a3b8; box-shadow:none; transform:none; cursor:not-allowed; }
+        .pay-btn.rzp-btn {
+            background: linear-gradient(135deg,#1a1a2e,#16213e);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            margin-top: 0;
+        }
+        .pay-btn.rzp-btn:hover { box-shadow:0 12px 25px rgba(0,0,0,0.4); }
+
+        /* ── LOADING ── */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .spinner {
+            width:50px; height:50px;
+            border:5px solid #e2e8f0;
+            border-top-color:#14b8a6;
+            border-radius:50%;
+            animation:spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body style="background: url('assets/images/dashboard_hero.png') center/cover no-repeat fixed;">
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <h3 style="margin-top:20px; color:var(--ink);">Processing Payment...</h3>
+        <p style="color:var(--muted);">Please securely hold on, establishing connection.</p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.7); backdrop-filter:blur(20px); min-height:100vh; padding:40px 20px;">
+        <div style="max-width:900px; margin:0 auto 10px; display:flex; align-items:center; cursor:pointer;" onclick="history.back()">
+            <i class="ph ph-arrow-left" style="font-size:1.5rem; margin-right:10px;"></i>
+            <span style="font-weight:600;">Return to Dashboard</span>
+        </div>
+
+        <div class="checkout-container">
+
+            <!-- ═══ LEFT: Order Summary ═══ -->
+            <div class="summary-card">
+                <h2 style="margin-bottom:20px; font-family:'Playfair Display',serif; color:white;">
+                    <i class="ph-fill ph-lock-key"></i> Secure Checkout
+                </h2>
+                <p style="color:#cbd5e1; margin-bottom:30px;">Review your inbound spare parts logistics order before final authorization.</p>
+
+                <div class="item-row">
+                    <div>
+                        <div class="item-name" id="uiItemName">Loading...</div>
+                        <div class="item-meta">Supplier Hand-off Confirmed</div>
+                    </div>
+                </div>
+                <div class="item-row">
+                    <div><div class="item-name">Quantity Requested</div></div>
+                    <div style="font-weight:700; font-size:1.2rem; color:#fff;" id="uiQty">0 Units</div>
+                </div>
+
+                <div class="total-row">
+                    <span>Total Cost</span>
+                    <span id="uiTotal" style="color:var(--gold);">₹0</span>
+                </div>
+
+                <!-- UPI ID chip -->
+                <div style="margin-top:24px; background:rgba(255,255,255,0.08); border-radius:10px; padding:14px 16px;">
+                    <div style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; color:#64748b; margin-bottom:5px;">UPI Payment To</div>
+                    <div style="font-family:'JetBrains Mono',monospace; color:#38bdf8; font-weight:700; font-size:0.9rem;">8630040694@ibl</div>
+                    <div style="font-size:0.7rem; color:#94a3b8; margin-top:4px;">SpareCo Procurement A/C</div>
+                </div>
+            </div>
+
+            <!-- ═══ RIGHT: Payment Tabs ═══ -->
+            <div class="payment-card">
+
+                <!-- Tab Bar -->
+                <div class="tab-bar">
+                    <button class="tab-btn active" id="tabUpi" onclick="switchTab('upi')">📱 UPI / QR</button>
+                    <button class="tab-btn"         id="tabRzp" onclick="switchTab('rzp')">💳 Card / Netbanking</button>
+                </div>
+
+                <!-- ── UPI QR TAB ── -->
+                <div class="tab-panel active" id="panelUpi">
+                    <div class="qr-wrapper">
+
+                        <div class="qr-amount-badge" id="qrAmount">₹0</div>
+
+                        <div class="qr-img-box">
+                            <img src="assets/images/upi_qr.png" alt="UPI QR Code">
+                        </div>
+
+                        <p class="qr-scan-label">📷 Scan with any UPI app to pay instantly</p>
+
+                        <div class="upi-apps">
+                            <span class="upi-app-chip" style="background:#e8f5e9; color:#2e7d32;">GPay</span>
+                            <span class="upi-app-chip" style="background:#f3e5f5; color:#6a1b9a;">PhonePe</span>
+                            <span class="upi-app-chip" style="background:#e3f2fd; color:#1565c0;">Paytm</span>
+                            <span class="upi-app-chip" style="background:#fff3e0; color:#e65100;">BHIM</span>
+                            <span class="upi-app-chip" style="background:#fce4ec; color:#880e4f;">& more</span>
+                        </div>
+
+                        <div class="paid-section">
+                            <div style="font-size:0.8rem; font-weight:700; color:#374151; margin-bottom:4px;">After paying, enter your UTR / Transaction ID</div>
+                            <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:6px;">Found in your UPI app under payment history</div>
+                            <input type="text" id="utrInput" class="utr-input" placeholder="e.g. 512345678901  (12-digit UTR)">
+                            <div id="utrMsg" style="font-size:0.75rem; font-weight:600; min-height:18px; margin-top:6px;"></div>
+                            <button class="pay-btn" id="upiConfirmBtn" onclick="confirmUpiPayment()">✅ Confirm UPI Payment</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── RAZORPAY TAB ── -->
+                <div class="tab-panel" id="panelRzp">
+                    <div style="text-align:center; padding:10px 0 20px;">
+                        <div style="font-size:2rem; margin-bottom:12px;">💳</div>
+                        <h3 style="color:var(--ink); margin-bottom:8px;">Pay via Razorpay</h3>
+                        <p style="color:var(--muted); font-size:0.85rem; margin-bottom:24px; line-height:1.6;">
+                            Pay securely using Credit/Debit Card, Netbanking, or Wallet through Razorpay's encrypted gateway.
+                        </p>
+                        <button class="pay-btn rzp-btn" id="payBtn" onclick="processPayment()">
+                            Pay ₹<span id="rzpAmount">0</span> via Razorpay 🔒
+                        </button>
+                        <p style="font-size:0.7rem; color:#94a3b8; margin-top:12px;">🔒 256-bit SSL encrypted · Secured by Razorpay</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Grab URL params
+        const params     = new URLSearchParams(window.location.search);
+        const spareId    = params.get('id');
+        const supplierId = params.get('supplier');
+        const qty        = params.get('qty');
+        const price      = params.get('price');
+        const itemName   = params.get('name');
+
+        // 2. Hydrate UI
+        if (!spareId || !supplierId) {
+            alert("Invalid checkout session.");
+            window.location.href = 'index.html';
+        } else {
+            document.getElementById('uiItemName').textContent = itemName;
+            document.getElementById('uiQty').textContent      = qty + ' Units';
+            const fmt = Number(price).toLocaleString('en-IN');
+            document.getElementById('uiTotal').textContent    = '₹' + fmt;
+            document.getElementById('qrAmount').textContent   = '₹' + fmt;
+            document.getElementById('rzpAmount').textContent  = fmt;
+        }
+
+        /* ── TAB SWITCH ── */
+        function switchTab(tab) {
+            ['Upi','Rzp'].forEach(t => {
+                document.getElementById('tab'   + t).classList.remove('active');
+                document.getElementById('panel' + t).classList.remove('active');
+            });
+            const key = tab === 'upi' ? 'Upi' : 'Rzp';
+            document.getElementById('tab'   + key).classList.add('active');
+            document.getElementById('panel' + key).classList.add('active');
+        }
+
+        /* ── SAVE ORDER TO DB ── */
+        async function saveOrder(razorpayOrderId, razorpayPaymentId) {
+            const res = await fetch('/api/orders', {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sparePart:        spareId,
+                    supplier:         supplierId,
+                    quantityOrdered:  Number(qty),
+                    agreedPrice:      Number(price),
+                    razorpayOrderId,
+                    razorpayPaymentId
+                })
+            });
+            if (!res.ok) throw new Error('Database recording failed');
+        }
+
+        /* ── UPI CONFIRM ── */
+        async function confirmUpiPayment() {
+            const utr    = document.getElementById('utrInput').value.trim();
+            const msgBox = document.getElementById('utrMsg');
+            const btn    = document.getElementById('upiConfirmBtn');
+
+            if (!utr || utr.length < 8) {
+                msgBox.style.color = '#ef4444';
+                msgBox.textContent = '❌ Please enter a valid UTR / Transaction ID.';
+                return;
+            }
+            btn.disabled        = true;
+            btn.textContent     = '⏳ Verifying...';
+            msgBox.style.color  = '#f59e0b';
+            msgBox.textContent  = 'Recording payment...';
+            try {
+                await saveOrder('UPI_QR_PAYMENT', utr);
+                btn.textContent      = '✅ Payment Confirmed!';
+                btn.style.background = 'linear-gradient(135deg,#16a34a,#22c55e)';
+                msgBox.style.color   = '#14b8a6';
+                msgBox.textContent   = '✅ UTR ' + utr + ' recorded. Redirecting...';
+                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+            } catch(err) {
+                console.error(err);
+                msgBox.style.color = '#ef4444';
+                msgBox.textContent = '❌ Failed to record. Please try again.';
+                btn.disabled       = false;
+                btn.textContent    = '✅ Confirm UPI Payment';
+            }
+        }
+
+        /* ── RAZORPAY GATEWAY ── */
+        async function processPayment() {
+            const btn     = document.getElementById('payBtn');
+            const overlay = document.getElementById('loadingOverlay');
+            btn.disabled          = true;
+            overlay.style.display = 'flex';
+            try {
+                const rzpRes = await fetch('/api/orders/razorpay', {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify({ amount: Number(price) })
+                });
+                if (!rzpRes.ok) throw new Error("Failed to initialize Razorpay");
+                const rzpOrder = await rzpRes.json();
+
+                const options = {
+                    key:         "rzp_test_SdWJYLLkVxRcTI",
+                    amount:      rzpOrder.amount,
+                    currency:    rzpOrder.currency,
+                    name:        "SpareCo Inventory",
+                    description: "Order: " + itemName,
+                    order_id:    rzpOrder.id,
+                    handler: async function (response) {
+                        overlay.style.display = 'flex';
+                        try {
+                            await saveOrder(response.razorpay_order_id, response.razorpay_payment_id);
+                            window.location.href = 'index.html';
+                        } catch(err) {
+                            alert("Payment succeeded but saving failed. Contact admin.");
+                            overlay.style.display = 'none';
+                        }
+                    },
+                    prefill: { name: "Logistics Admin", email: "admin@spareco.com", contact: "9999999999" },
+                    theme:   { color: "#14b8a6" }
+                };
+                overlay.style.display = 'none';
+                const rzpPopup = new Razorpay(options);
+                rzpPopup.on('payment.failed', function (r) {
+                    alert("Payment Failed: " + r.error.description);
+                    btn.disabled = false;
+                });
+                rzpPopup.open();
+            } catch(error) {
+                console.error(error);
+                alert("Could not connect to payment gateway.");
+                overlay.style.display = 'none';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

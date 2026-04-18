@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EOQ Engine - Optimum Inventory</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .eoq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px;}
+        .result-box { text-align: center; margin-top: 20px; padding: 30px; border-radius: 16px; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); }
+        .result-box h3 { margin-bottom: 15px; color: var(--primary-color); font-size: 1.2rem;}
+        .result-value { font-size: 3.5rem; font-weight: 800; color: var(--text-main); }
+        
+        .param-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--border-color); }
+        .param-row span:last-child { font-weight: 600; color: var(--text-main); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo"><i class="ph-fill ph-hexagon"></i> <span>O</span>ptimum Inventory</div>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link"><i class="ph ph-squares-four"></i> Dashboard</a>
+                <a href="spares.html" class="nav-link"><i class="ph ph-wrench"></i> Machine Spares</a>
+                <a href="eoq.html" class="nav-link active"><i class="ph ph-chart-line-up"></i> EOQ Engine</a>
+                <a href="reports.html" class="nav-link"><i class="ph ph-file-text"></i> Reports</a>
+                <a href="#" class="nav-link" onclick="logout()" style="margin-top: auto; color: var(--danger-color);"><i class="ph ph-sign-out"></i> Logout</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="page-header">
+                <h2>Economic Order Quantity (EOQ)</h2>
+                <p>Calculate the mathematically optimal order quantity to minimize total holding and ordering costs.</p>
+            </div>
+
+            <div class="eoq-grid">
+                <div class="glass-panel">
+                    <h3 style="margin-bottom: 20px;">Configuration Options</h3>
+                    <label style="color: var(--text-muted); margin-bottom: 5px; display: block;">Target Spare Component</label>
+                    <select id="spareSelect">
+                        <option value="">-- Select a Component to Analyze --</option>
+                        <!-- Populated via JS -->
+                    </select>
+                    
+                    <div id="spareDetails" style="display: none; margin-top: 20px;">
+                        <h4 style="margin-bottom:15px; color: var(--primary-color);">Injected Parameters</h4>
+                        <div class="param-row"><span>Annual Demand (D)</span> <span id="lblD">0 units</span></div>
+                        <div class="param-row"><span>Ordering Cost (S)</span> <span id="lblS">$0 / order</span></div>
+                        <div class="param-row"><span>Holding Cost (H)</span> <span id="lblH">$0 / unit/yr</span></div>
+                        <div class="param-row" style="border:none;"><span>Calculated Lead Time</span> <span id="lblL">0 days</span></div>
+                        
+                        <button id="btnCalculate" style="margin-top: 30px; width: 100%; padding: 15px; font-size: 1.1rem;">Extrapolate Optimal Trajectory</button>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <h3 style="margin-bottom: 20px;">Algorithm Findings</h3>
+                    <div id="resultsArea" style="display: none;">
+                        <div class="result-box">
+                            <h3>Absolute Optimal Order Quantity</h3>
+                            <div class="result-value" id="resEOQ">0</div>
+                            <p style="color: var(--text-muted); margin-top: 10px;">units per PO</p>
+                        </div>
+                        
+                        <div class="result-box" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+                            <h3 style="color: var(--accent-color);">Suggested Reorder Threshold</h3>
+                            <div class="result-value" id="resROP">0</div>
+                            <p style="color: var(--text-muted); margin-top: 10px;">units in reserve</p>
+                        </div>
+                    </div>
+                    <div id="noDataText" style="text-align: center; color: var(--text-muted); margin-top: 80px;">
+                        <div style="font-size: 3rem; margin-bottom: 20px; opacity: 0.2;">📊</div>
+                        Awaiting matrix injection block. Please select a component.
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel" id="graphContainer" style="display: none;">
+                <h3 style="margin-bottom: 20px;">Cost Intersection Curve Simulation</h3>
+                <div style="height: 400px;">
+                    <canvas id="eoqChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/eoq.js"></script>
+</body>
+</html>
