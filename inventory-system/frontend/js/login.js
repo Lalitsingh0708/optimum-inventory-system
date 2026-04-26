@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = '/api/auth';
 
 function switchTab(tab) {
   document.getElementById('tab-login').classList.remove('active');
