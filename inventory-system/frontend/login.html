@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SpareCo — Login & Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/spareco.css">
+<style>
+  .auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .auth-deco {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .auth-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    width: 100%;
+    max-width: 440px;
+    padding: 3rem;
+    box-shadow: var(--shadow-l);
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.6s ease both;
+  }
+  .auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .auth-logo {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 700; color: var(--ink);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+  }
+  .auth-logo-mark {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--rust) 0%, var(--gold) 100%);
+    display: grid; place-items: center;
+    font-size: 1.2rem; color: #fff; font-family: 'Outfit', sans-serif;
+  }
+  .auth-subtitle {
+    font-size: 0.9rem; color: var(--muted);
+  }
+  .auth-tabs {
+    display: flex;
+    background: var(--warm);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.3rem;
+    margin-bottom: 2rem;
+  }
+  .auth-tab {
+    flex: 1;
+    text-align: center;
+    font-size: 0.85rem; font-weight: 600; color: var(--muted);
+    padding: 0.6rem; border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .auth-tab.active {
+    background: #fff; color: var(--ink);
+    box-shadow: var(--shadow-s);
+  }
+  .auth-form {
+    display: none;
+    animation: fadeUp 0.4s ease both;
+  }
+  .auth-form.active {
+    display: block;
+  }
+  .auth-msg {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .msg-error { color: var(--rust); }
+  .msg-success { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<div class="auth-wrapper">
+  <div class="auth-deco">
+    <div class="deco-circle deco-1" style="top:-100px; left:-150px; right:auto;"></div>
+    <div class="deco-circle deco-2" style="bottom:-50px; right:-80px; left:auto;"></div>
+    <div class="deco-grid"></div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">
+        <div class="auth-logo-mark">⚙</div>
+        Spare<em style="font-style:italic;color:var(--rust)">Co</em>
+      </div>
+      <div class="auth-subtitle">Inventory Intelligence Platform</div>
+    </div>
+
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</div>
+      <div class="auth-tab" id="tab-register" onclick="switchTab('register')">Sign Up</div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="auth-form active" id="form-login">
+      <div class="fg">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="e.g. user@spareco.com">
+      </div>
+      <div class="fg">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••">
+      </div>
+      <button class="calc-submit" onclick="handleLogin()">Sign In ⚡</button>
+      <div id="loginMsg" class="auth-msg"></div>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="auth-form" id="form-register">
+      <div class="fg">
+        <label>Full Name</label>
+        <input type="text" id="regName" placeholder="e.g. Rahul Verma">
+      </div>
+      <div class="fg">
+        <label>Email Address</label>
+        <input type="email" id="regEmail" placeholder="e.g. user@spareco.com">
+      </div>
+      <div class="fg">
+        <label>Role</label>
+        <select id="regRole">
+          <option value="Staff">Operations Staff</option>
+          <option value="Manager">Inventory Manager</option>
+          <option value="Admin">System Administrator</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Password</label>
+        <input type="password" id="regPassword" placeholder="••••••••">
+      </div>
+      <button class="calc-submit" onclick="handleRegister()" style="background:linear-gradient(135deg, var(--teal), #134e4a);">Sign Up 🚀</button>
+      <div id="regMsg" class="auth-msg"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/login.js"></script>
+</body>
+</html>

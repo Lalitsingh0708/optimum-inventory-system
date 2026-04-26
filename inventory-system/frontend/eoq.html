@@ -16,6 +16,18 @@
         .param-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--border-color); }
         .param-row span:last-child { font-weight: 600; color: var(--text-main); }
     </style>
+<style>
+  /* Prevent any flash of unauthenticated content */
+  html { display: none; }
+</style>
+<script>
+  if (!localStorage.getItem('token')) {
+    window.location.replace('login.html');
+  } else {
+    // Reveal content since authenticated
+    document.documentElement.style.display = 'block';
+  }
+</script>
 </head>
 <body>
     <div class="app-container">

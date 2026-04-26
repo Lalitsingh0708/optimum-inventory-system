@@ -6,6 +6,38 @@
 <title>SpareCo — Inventory Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/spareco.css">
+<style>
+  /* Prevent any flash of unauthenticated content */
+  html { display: none; }
+</style>
+<script>
+  if (!localStorage.getItem('token')) {
+    window.location.replace('login.html');
+  } else {
+    // Reveal content since authenticated
+    document.documentElement.style.display = 'block';
+    
+    // Display logged-in user name
+    document.addEventListener('DOMContentLoaded', () => {
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        try {
+          const userObj = JSON.parse(userStr);
+          const nameSpan = document.getElementById('navUserName');
+          if (nameSpan && userObj.name) {
+            nameSpan.textContent = `Hi, ${userObj.name}`;
+          }
+        } catch(e) {}
+      }
+    });
+  }
+
+  function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
+  }
+</script>
 </head>
 <body>
 
@@ -32,9 +64,11 @@
     <a href="#metrics">Metrics</a>
     <a href="#process">Process</a>
   </div>
-  <div class="nav-right">
+  <div class="nav-right" style="display: flex; align-items: center;">
     <a href="#models" class="btn-outline-sm">Explore</a>
     <a href="#calculator" class="btn-fill-sm">Try Calculator</a>
+    <span id="navUserName" style="margin: 0 15px; color: var(--ink); font-weight: 600; font-family: inherit; font-size: 0.95rem;"></span>
+    <button onclick="logout()" class="btn-outline-sm" style="border-color: var(--rust-lt); color: var(--rust); background: transparent; cursor: pointer; font-family: inherit;">Log Out</button>
   </div>
   <button class="hamburger" onclick="openMob()" aria-label="Menu">
     <span></span><span></span><span></span>

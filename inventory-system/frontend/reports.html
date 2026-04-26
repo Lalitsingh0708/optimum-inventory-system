@@ -6,6 +6,18 @@
     <title>Reports - Optimum Inventory</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+<style>
+  /* Prevent any flash of unauthenticated content */
+  html { display: none; }
+</style>
+<script>
+  if (!localStorage.getItem('token')) {
+    window.location.replace('login.html');
+  } else {
+    // Reveal content since authenticated
+    document.documentElement.style.display = 'block';
+  }
+</script>
 </head>
 <body>
     <div class="app-container">
