@@ -483,17 +483,55 @@ Reorder Point = (Daily Demand × Lead Time Days) × 1.20
 
 ## 📸 Screenshots
 
-> *(Add your actual screenshots here by uploading images to your repo)*
+[Screenshot 1: Login Page — Role-based authentication with Admin and Inventory Manager
+credentials]
 
-| Dashboard | Spare Parts | EOQ Optimizer |
-|-----------|------------|---------------|
-| ![Dashboard](assets/screenshots/dashboard.png) | ![Spares](assets/screenshots/spares.png) | ![EOQ](assets/screenshots/eoq.png) |
+<img width="1844" height="928" alt="image" src="https://github.com/user-attachments/assets/e60e1667-712a-41e7-ad10-94b4ea5023b1" />
 
-| Purchase Orders | Reorder Alerts | Reports |
-|----------------|----------------|---------|
-| ![Orders](assets/screenshots/orders.png) | ![Alerts](assets/screenshots/alerts.png) | ![Reports](assets/screenshots/reports.png) |
+
+[Screenshot 2: Dashboard — KPI stat cards, usage trend chart, and stock status doughnut chart]
+
+<img width="1826" height="942" alt="image" src="https://github.com/user-attachments/assets/3f37eb15-bf69-4201-b9d7-0367d41e7038" />
+
+[Screenshot 3: Spare Parts Inventory Add Spare parts And Suppliers]
+
+<img width="1812" height="884" alt="image" src="https://github.com/user-attachments/assets/da57f60e-2968-46f0-9e8b-752f18ebab43" />
+
+
+[Screenshot 4: Machine Management — Machine cards with assigned spare parts and criticality
+alerts]
+
+<img width="1822" height="926" alt="image" src="https://github.com/user-attachments/assets/fc7823aa-4011-4861-a8d4-f68f7478391f" />
+
+
+[Screenshot 5: EOQ Optimizer — EOQ values, reorder points, and one-click purchase order
+creation]
+
+<img width="1850" height="930" alt="image" src="https://github.com/user-attachments/assets/da54fd0f-eb30-4748-b3f7-bd9edda8d0fd" />
+
+Screenshort 6 : Add machines in which city they were operating 
+
+<img width="1798" height="934" alt="image" src="https://github.com/user-attachments/assets/b2f6c086-e118-44f5-b72d-2a389298324c" />
+
+
+
+[Screenshot 7: Reorder Alerts — Critical low stock alerts with EOQ and direct PO generation]
+<img width="1816" height="978" alt="image" src="https://github.com/user-attachments/assets/d8108b01-31e9-4a7e-851d-df6fbdf7d032" />
+
+Screenshot 8:overview of this keywords
+
+<img width="1844" height="834" alt="image" src="https://github.com/user-attachments/assets/3112fb81-36af-47d2-a214-db6473f05a62" />
+
+Screensht9: payment interface
+<img width="1806" height="926" alt="image" src="https://github.com/user-attachments/assets/3e50d737-391e-44f9-a676-f36fdb17591c" />
+
+
+Screenshot 10 : payment done screenshot
+<img width="1796" height="932" alt="image" src="https://github.com/user-attachments/assets/43abc9c4-6a08-40c9-a26a-265d83b9ec19" />
+
 
 ---
+
 
 ## 🚀 Deployment
 
@@ -541,4 +579,3 @@ For Vercel deployment, a `vercel.json` is already configured in the backend fold
 ```
 
 ---
-
