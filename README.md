@@ -1,8 +1,8 @@
 # 🏭 Optimum Inventory Control System for Machine Spares and Consumables
 
-Somnath Bhaskar
-Roll no. 03 
-12401921
+Name - Somnath Bhaskar
+Roll no. -  03 
+Reg. No. - 12401921
 
 
 <div align="center">
